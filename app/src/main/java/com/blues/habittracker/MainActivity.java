@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mDbHelper = new HabitDbHelper(this);
+        insertHabit();
         diplayDatabaseInfo();
     }
 
@@ -44,10 +45,30 @@ public class MainActivity extends AppCompatActivity {
                 null
         );
 
-        Log.i(LOG_TAG,"db");
+        Log.i(LOG_TAG,"Table: " +  HabitEntry._ID + "-"
+                + HabitEntry.COLUMN_HABIT_NAME + "-"
+                + HabitEntry.COLUMN_HABIT_TIME + "-"
+                + HabitEntry.COLUMN_HABIT_FEEL
+        );
 
         try{
-            Log.i(LOG_TAG,"table count: " + cursor.getCount());
+            int idColumnIndex = cursor.getColumnIndex(HabitEntry._ID);
+            int nameColumnIndex = cursor.getColumnIndex(HabitEntry.COLUMN_HABIT_NAME);
+            int feelColumnIndex = cursor.getColumnIndex(HabitEntry.COLUMN_HABIT_FEEL);
+            int timeColumnIndex = cursor.getColumnIndex(HabitEntry.COLUMN_HABIT_TIME);
+
+            while (cursor.moveToNext()){
+                int currentID = cursor.getInt(idColumnIndex);
+                String currentName = cursor.getString(nameColumnIndex);
+                int currentTime = cursor.getInt(timeColumnIndex);
+                int currentFeel = cursor.getInt(feelColumnIndex);
+
+                Log.i(LOG_TAG,"Row: " +  currentID + "-"
+                        + currentName + "-"
+                        + currentTime + "-"
+                        + currentFeel
+                );
+            }
         }
         finally {
             cursor.close();
@@ -55,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void insertPet(){
+    private void insertHabit(){
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
