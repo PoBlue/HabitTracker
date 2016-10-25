@@ -23,10 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
         mDbHelper = new HabitDbHelper(this);
         insertHabit();
-        diplayDatabaseInfo();
+        displayDatabaseInfo();
     }
 
-    private void diplayDatabaseInfo(){
+    // Log the message about all rows in table
+    private void displayDatabaseInfo(){
 
         Cursor cursor = getHabitAllDataCursor();
 
