@@ -27,23 +27,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void diplayDatabaseInfo(){
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        String[] projection = {
-                HabitEntry._ID,
-                HabitEntry.COLUMN_HABIT_NAME,
-                HabitEntry.COLUMN_HABIT_TIME,
-                HabitEntry.COLUMN_HABIT_FEEL};
-
-        Cursor cursor = db.query(
-                HabitEntry.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+        Cursor cursor = getHabitAllDataCursor();
 
         Log.i(LOG_TAG,"Table: " +  HabitEntry._ID + "-"
                 + HabitEntry.COLUMN_HABIT_NAME + "-"
@@ -74,6 +59,34 @@ public class MainActivity extends AppCompatActivity {
             cursor.close();
         }
 
+    }
+
+    private Cursor getHabitAllDataCursor() {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+        String[] result_columns = {
+                HabitEntry._ID,
+                HabitEntry.COLUMN_HABIT_NAME,
+                HabitEntry.COLUMN_HABIT_TIME,
+                HabitEntry.COLUMN_HABIT_FEEL};
+
+        String where = null;
+        String whereArgs[] = null;
+        String groupBy = null;
+        String having = null;
+        String order = null;
+
+        Cursor cursor = db.query(
+                HabitEntry.TABLE_NAME,
+                result_columns,
+                where,
+                whereArgs,
+                groupBy,
+                having,
+                order
+        );
+
+        return cursor;
     }
 
     private void insertHabit(){
